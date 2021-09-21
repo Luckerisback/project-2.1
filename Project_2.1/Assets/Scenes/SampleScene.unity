@@ -428,12 +428,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439667a275268a140a3289753471972a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  anim: {fileID: 0}
-  moveVector: {x: 0, y: 0}
-  speed: 1
-  faceRight: 1
-  jumpForce: 4
+  rb: {fileID: 554652687}
+  anim: {fileID: 554652691}
   onGround: 1
   onFloor: 0
   Ground:
@@ -444,6 +440,13 @@ MonoBehaviour:
     m_Bits: 2048
   GroundCheck: {fileID: 1197889265}
   FloorCheck: {fileID: 221561179}
+  collision: {fileID: 554652688}
+  groundCheckCollision: {fileID: 1197889266}
+  floorCheckCollision: {fileID: 221561180}
+  moveVector: {x: 0, y: 0}
+  speed: 1
+  faceRight: 1
+  jumpForce: 4
 --- !u!50 &554652687
 Rigidbody2D:
   serializedVersion: 4

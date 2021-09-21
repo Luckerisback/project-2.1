@@ -8,16 +8,33 @@ public class PlayerControl_v2 : MonoBehaviour
     // Функция/метод, выполняемая при запуске игры 
     public Rigidbody2D rb;
     public Animator anim;
-    void Start()
+    public bool onGround;
+    public bool onFloor;
+    public LayerMask Ground;
+    public LayerMask Floor;
+    public Transform GroundCheck;
+    public Transform FloorCheck;
+    [SerializeField] private Collider2D collision;
+    [SerializeField] private CircleCollider2D groundCheckCollision;
+    [SerializeField] private CircleCollider2D floorCheckCollision;
+    private float GroundCheckRadius;
+    private float FloorCheckRadius;
+    // Функция/метод для перемещения персонажа по горизонтали
+    public Vector2 moveVector;
+    public int speed = 1;
+    // Функция/метод для отражения персонажа по горизонтали 
+    public bool faceRight = true;
+    // Функция/метод для прыжка 
+    public int jumpForce = 10;
+ 
+    private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
         //-v- Для автоматического присваивания в переменную, радиуса коллайдера объекта «GroundCheck»
-        GroundCheckRadius = GroundCheck.GetComponent<CircleCollider2D>().radius;
-        FloorCheckRadius = FloorCheck.GetComponent<CircleCollider2D>().radius;
+        GroundCheckRadius = groundCheckCollision.radius;
+        FloorCheckRadius = floorCheckCollision.radius;
     }
     // Функция/метод, выполняемая каждый кадр в игре 
-    void Update()
+    private void Update()
     {
         Walk();
         Reflect();
@@ -25,10 +42,8 @@ public class PlayerControl_v2 : MonoBehaviour
         CheckingGround();
         CheckingFloor();
     }
-    // Функция/метод для перемещения персонажа по горизонтали
-    public Vector2 moveVector;
-    public int speed = 1;
-    void Walk()
+    
+    private void Walk()
     {
         moveVector.x = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(moveVector.x * speed, rb.velocity.y);
@@ -36,9 +51,8 @@ public class PlayerControl_v2 : MonoBehaviour
             anim.SetBool("Move", true);
         else anim.SetBool("Move", false);
     }
-    // Функция/метод для отражения персонажа по горизонтали 
-    public bool faceRight = true;
-    void Reflect()
+   
+    private void Reflect()
     {
         if ((moveVector.x > 0 && !faceRight) || (moveVector.x < 0 && faceRight))
         {
@@ -47,13 +61,12 @@ public class PlayerControl_v2 : MonoBehaviour
             faceRight = !faceRight;
         }
     }
-    // Функция/метод для прыжка 
-    public int jumpForce = 10;
-    void Jump()
+ 
+    private void Jump()
     {
         if (onGround && !onFloor && Input.GetKeyDown(KeyCode.DownArrow))
         {
-            this.GetComponent<BoxCollider2D>().enabled = false;
+            collision.enabled = false;
             Invoke("IgnoreCollisionOff", 0.25f);
         }
 
@@ -64,30 +77,23 @@ public class PlayerControl_v2 : MonoBehaviour
     }
 
     // Функция/метод для обнаружения земли 
-    public bool onGround;
-    public bool onFloor;
-    public LayerMask Ground;
-    public LayerMask Floor;
-    public Transform GroundCheck;
-    public Transform FloorCheck;
-    private float GroundCheckRadius;
-    private float FloorCheckRadius;
+    
 
-    void CheckingGround()
+    private void CheckingGround()
     {
         onGround = Physics2D.OverlapCircle(GroundCheck.position, GroundCheckRadius, Ground);
-        anim.SetBool("onGround", onGround);
+      
     }
 
-    void CheckingFloor()
+    private  void CheckingFloor()
     {
         onFloor = Physics2D.OverlapCircle(FloorCheck.position, FloorCheckRadius, Floor);
-        anim.SetBool("onFloor", onFloor);
+       
     }
 
     private void IgnoreCollisionOff()
     {
-        this.GetComponent<BoxCollider2D>().enabled = true;
+       collision.enabled = true;
     }
 
 }
