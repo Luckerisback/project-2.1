@@ -36,43 +36,47 @@ public class PlayerControl_v2 : MonoBehaviour
     // Функция/метод, выполняемая каждый кадр в игре 
     private void Update()
     {
-        Walk();
-        Reflect();
-        Jump();
         CheckingGround();
         CheckingFloor();
     }
     
-    private void Walk()
+    public void Walk(int direction)
     {
-        moveVector.x = Input.GetAxisRaw("Horizontal");
-        rb.velocity = new Vector2(moveVector.x * speed, rb.velocity.y);
-        if(moveVector.x != 0 && moveVector.y == 0)
-            anim.SetBool("Move", true);
-        else anim.SetBool("Move", false);
+        rb.velocity = new Vector2( speed * direction, rb.velocity.y);
+    }
+
+    public void SetWalkAnim()
+    {
+        anim.SetBool("Move", true);
+    }
+
+    public void IdleState()
+    {
+        anim.SetBool("Move", false);
     }
    
-    private void Reflect()
+    public void Reflect()
     {
-        if ((moveVector.x > 0 && !faceRight) || (moveVector.x < 0 && faceRight))
-        {
-            transform.Rotate(0f, 180, 0f);
-            //transform.localScale *= new Vector2(-1, 1);
-            faceRight = !faceRight;
-        }
+        var scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
+        faceRight = !faceRight;
     }
  
-    private void Jump()
+    public void Jump()
     {
-        if (onGround && !onFloor && Input.GetKeyDown(KeyCode.DownArrow))
+        if ((onGround || onFloor))
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        }
+    }
+
+    public void DownJump()
+    {
+        if (onGround && !onFloor)
         {
             collision.enabled = false;
             Invoke("IgnoreCollisionOff", 0.25f);
-        }
-
-        if ((onGround || onFloor) && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)))
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
     }
 
