@@ -29,6 +29,7 @@ public class PlayerControl_v2 : MonoBehaviour
  
     private void Start()
     {
+        PlayerParametersInGame.SetParameters();
         //-v- Для автоматического присваивания в переменную, радиуса коллайдера объекта «GroundCheck»
         GroundCheckRadius = groundCheckCollision.radius;
         FloorCheckRadius = floorCheckCollision.radius;
@@ -53,6 +54,7 @@ public class PlayerControl_v2 : MonoBehaviour
     public void IdleState()
     {
         anim.SetBool("Move", false);
+        StartCoroutine(StopMoveAnimCoroutine());
     }
    
     public void Reflect()
@@ -61,6 +63,7 @@ public class PlayerControl_v2 : MonoBehaviour
         scale.x *= -1;
         transform.localScale = scale;
         faceRight = !faceRight;
+        PlayerParametersInGame.IsFaceRight = faceRight;
     }
  
     public void Jump()
@@ -98,6 +101,13 @@ public class PlayerControl_v2 : MonoBehaviour
     private void IgnoreCollisionOff()
     {
        collision.enabled = true;
+    }
+
+    private IEnumerator StopMoveAnimCoroutine()
+    {
+        anim.SetBool("StopMove", false);
+        yield return new WaitForSeconds(3);
+        anim.SetBool("StopMove", true);
     }
 
 }
