@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 public class PlayerMoveView : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerUpHandler, IPointerExitHandler, IPointerDownHandler
 {
     [SerializeField] private PlayerControl_v2 playerControlV2;
+    [SerializeField] private GameObject leftArrow;
+    [SerializeField] private GameObject rightArrow;
     private Vector2 _startPos;
     private bool _swipeRight;
     private const float _swipeRange = 50;
@@ -15,6 +17,8 @@ public class PlayerMoveView : MonoBehaviour, IDragHandler, IBeginDragHandler, IP
     {
         if (eventData.delta.x > 0 && eventData.position.x > _startPos.x + _swipeRange)
         {
+            rightArrow.SetActive(true);
+            leftArrow.SetActive(false);
             _startPos.x = eventData.position.x;
             playerControlV2.Walk(1);
             playerControlV2.SetWalkAnim();
@@ -26,6 +30,8 @@ public class PlayerMoveView : MonoBehaviour, IDragHandler, IBeginDragHandler, IP
         }
         else if (eventData.delta.x < 0 && eventData.position.x < _startPos.x - _swipeRange)
         {
+            rightArrow.SetActive(false);
+            leftArrow.SetActive(true);
             _startPos.x = eventData.position.x;
             playerControlV2.SetWalkAnim();
             playerControlV2.Walk(-1);
@@ -45,6 +51,8 @@ public class PlayerMoveView : MonoBehaviour, IDragHandler, IBeginDragHandler, IP
     {
         playerControlV2.IdleState();
         playerControlV2.Walk(0);
+        rightArrow.SetActive(false);
+        leftArrow.SetActive(false);
     }
 
     public void OnPointerExit(PointerEventData eventData)

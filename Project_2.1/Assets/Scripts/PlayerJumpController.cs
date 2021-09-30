@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerJumpController : MonoBehaviour, IBeginDragHandler, IDragHandler, IPointerUpHandler, IPointerDownHandler
+public class PlayerJumpController : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [SerializeField] private Weapon attackController;
     [SerializeField] private PlayerControl_v2 playerControlV2;
+    [SerializeField] private GameObject upArrow;
+    [SerializeField] private GameObject downArrow;
     private bool _isSwipe;
-    private bool _isAttack;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -17,14 +17,17 @@ public class PlayerJumpController : MonoBehaviour, IBeginDragHandler, IDragHandl
 
     public void OnDrag(PointerEventData eventData)
     {
-        
         if (eventData.delta.y > 8)
         {
             playerControlV2.Jump();
+            upArrow.SetActive(true);
+            downArrow.SetActive(false);
             _isSwipe = true;
         }
         else if (eventData.delta.y < -8 )
         {
+            upArrow.SetActive(false);
+            downArrow.SetActive(true);
             playerControlV2.DownJump();
             _isSwipe = true;
         }
@@ -34,21 +37,9 @@ public class PlayerJumpController : MonoBehaviour, IBeginDragHandler, IDragHandl
         }
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnEndDrag(PointerEventData eventData)
     {
-        if (!_isSwipe)
-        {
-            attackController.Shoot();
-        }
-
-        _isSwipe = false;
-       
+        upArrow.SetActive(false);
+        downArrow.SetActive(false);
     }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        
-    }
-    
-    
 }

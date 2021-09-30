@@ -29,7 +29,7 @@ public class PlayerControl_v2 : MonoBehaviour
  
     private void Start()
     {
-        PlayerParametersInGame.SetParameters();
+        PlayerParametersInGame.SetParameters(transform);
         //-v- Для автоматического присваивания в переменную, радиуса коллайдера объекта «GroundCheck»
         GroundCheckRadius = groundCheckCollision.radius;
         FloorCheckRadius = floorCheckCollision.radius;

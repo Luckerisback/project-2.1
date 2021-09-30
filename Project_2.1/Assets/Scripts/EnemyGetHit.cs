@@ -9,7 +9,7 @@ public class EnemyGetHit : MonoBehaviour
     {
         if (collision.CompareTag("Bullet"))
         {
-            if (collision.transform.position.x < transform.position.x)
+            if (PlayerParametersInGame.PlayerTransform.position.x < transform.position.x)
             {
                 enemyRigidbody2D.velocity = new Vector2(forceSpeed, 0);
             }

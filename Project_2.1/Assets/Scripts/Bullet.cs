@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -17,12 +16,19 @@ public class Bullet : MonoBehaviour
         {
             rb.velocity = Vector2.left * speed;
         }
-       
+
+        StartCoroutine(DestroyCoroutine());
     }
 
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
         Debug.Log(hitInfo.name);
+        Destroy(gameObject);
+    }
+
+    private IEnumerator DestroyCoroutine()
+    {
+        yield return new WaitForSeconds(5);
         Destroy(gameObject);
     }
 }
