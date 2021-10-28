@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 
 public class PlayerControl_v2 : MonoBehaviour 
@@ -19,6 +20,7 @@ public class PlayerControl_v2 : MonoBehaviour
     [SerializeField] private CircleCollider2D floorCheckCollision;
     private float GroundCheckRadius;
     private float FloorCheckRadius;
+    private PhotonView photonView;
     // Функция/метод для перемещения персонажа по горизонтали
     public Vector2 moveVector;
     public int speed = 1;
@@ -29,6 +31,7 @@ public class PlayerControl_v2 : MonoBehaviour
  
     private void Start()
     {
+        photonView = GetComponent<PhotonView>();
         PlayerParametersInGame.SetParameters(transform);
         //-v- Для автоматического присваивания в переменную, радиуса коллайдера объекта «GroundCheck»
         GroundCheckRadius = groundCheckCollision.radius;
@@ -37,6 +40,8 @@ public class PlayerControl_v2 : MonoBehaviour
     // Функция/метод, выполняемая каждый кадр в игре 
     private void Update()
     {
+        if (!photonView.IsMine) return;
+
         CheckingGround();
         CheckingFloor();
     }
