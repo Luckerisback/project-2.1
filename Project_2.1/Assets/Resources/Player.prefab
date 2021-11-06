@@ -363,10 +363,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c9c04c1abc7b694184cf2f56142cf46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoint: {fileID: 0}
-  arrowImage: {fileID: 0}
+  spawnPoint: {x: -1.94, y: 19.98, z: 0}
   playerRigidbody2D: {fileID: 6130016581681325955}
-  PlayerPrefab: {fileID: 0}
 --- !u!114 &6295470544386796145
 MonoBehaviour:
   m_ObjectHideFlags: 0

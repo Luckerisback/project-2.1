@@ -1,14 +1,20 @@
 ﻿
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class PlayerJumpController : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [SerializeField] private PlayerControl_v2 playerControlV2;
+    private PlayerControl_v2 playerControlV2;
     [SerializeField] private GameObject upArrow;
     [SerializeField] private GameObject downArrow;
     private bool _isSwipe;
+
+    private void Start()
+    {
+        playerControlV2 = PlayerParametersInGame.PlayerControlV2;
+    }
 
     public void OnBeginDrag(PointerEventData eventData)
     {

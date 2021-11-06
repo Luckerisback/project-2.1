@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,4 +12,9 @@ public class Weapon : MonoBehaviour
     {
         Instantiate(bullet, firePoint.position, firePoint.rotation);
     }
+
+   private void Start()
+   {
+       PlayerParametersInGame.Weapon = this;
+   }
 }

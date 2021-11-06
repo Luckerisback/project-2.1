@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -28,11 +29,15 @@ public class PlayerControl_v2 : MonoBehaviour
     public bool faceRight = true;
     // Функция/метод для прыжка 
     public int jumpForce = 10;
- 
+
+    private void Awake()
+    {
+        PlayerParametersInGame.SetParameters(transform, this);
+    }
+
     private void Start()
     {
         photonView = GetComponent<PhotonView>();
-        PlayerParametersInGame.SetParameters(transform);
         //-v- Для автоматического присваивания в переменную, радиуса коллайдера объекта «GroundCheck»
         GroundCheckRadius = groundCheckCollision.radius;
         FloorCheckRadius = floorCheckCollision.radius;

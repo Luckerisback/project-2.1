@@ -1,17 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class PlayerMoveView : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerUpHandler, IPointerExitHandler, IPointerDownHandler
 {
-    [SerializeField] private PlayerControl_v2 playerControlV2;
+     private PlayerControl_v2 playerControlV2;
     [SerializeField] private GameObject leftArrow;
     [SerializeField] private GameObject rightArrow;
+    [SerializeField] private GameObject respawnArrow;
     private Vector2 _startPos;
     private bool _swipeRight;
     private const float _swipeRange = 50;
 
+    private void Start()
+    {
+        playerControlV2 = PlayerParametersInGame.PlayerControlV2;
+        PlayerParametersInGame.RespawnArrow = respawnArrow;
+    }
 
     public void OnDrag(PointerEventData eventData)
     {
