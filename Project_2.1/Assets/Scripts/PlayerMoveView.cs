@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class PlayerMoveView : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerUpHandler, IPointerExitHandler, IPointerDownHandler
 {
-     private PlayerControl_v2 playerControlV2;
+     
     [SerializeField] private GameObject leftArrow;
     [SerializeField] private GameObject rightArrow;
     [SerializeField] private GameObject respawnArrow;
@@ -15,7 +15,7 @@ public class PlayerMoveView : MonoBehaviour, IDragHandler, IBeginDragHandler, IP
 
     private void Start()
     {
-        playerControlV2 = PlayerParametersInGame.PlayerControlV2;
+        
         PlayerParametersInGame.RespawnArrow = respawnArrow;
     }
 
@@ -26,11 +26,11 @@ public class PlayerMoveView : MonoBehaviour, IDragHandler, IBeginDragHandler, IP
             rightArrow.SetActive(true);
             leftArrow.SetActive(false);
             _startPos.x = eventData.position.x;
-            playerControlV2.Walk(1);
-            playerControlV2.SetWalkAnim();
-            if (!playerControlV2.faceRight)
+            PlayerParametersInGame.PlayerControlV2.Walk(1);
+            PlayerParametersInGame.PlayerControlV2.SetWalkAnim();
+            if (!PlayerParametersInGame.PlayerControlV2.faceRight)
             {
-                playerControlV2.Reflect();
+                PlayerParametersInGame.PlayerControlV2.Reflect();
             }
             
         }
@@ -39,11 +39,11 @@ public class PlayerMoveView : MonoBehaviour, IDragHandler, IBeginDragHandler, IP
             rightArrow.SetActive(false);
             leftArrow.SetActive(true);
             _startPos.x = eventData.position.x;
-            playerControlV2.SetWalkAnim();
-            playerControlV2.Walk(-1);
-            if (playerControlV2.faceRight)
+            PlayerParametersInGame.PlayerControlV2.SetWalkAnim();
+            PlayerParametersInGame.PlayerControlV2.Walk(-1);
+            if (PlayerParametersInGame.PlayerControlV2.faceRight)
             {
-                playerControlV2.Reflect();
+                PlayerParametersInGame.PlayerControlV2.Reflect();
             }
         }
     }
@@ -55,8 +55,8 @@ public class PlayerMoveView : MonoBehaviour, IDragHandler, IBeginDragHandler, IP
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        playerControlV2.IdleState();
-        playerControlV2.Walk(0);
+        PlayerParametersInGame.PlayerControlV2.IdleState();
+        PlayerParametersInGame.PlayerControlV2.Walk(0);
         rightArrow.SetActive(false);
         leftArrow.SetActive(false);
     }
